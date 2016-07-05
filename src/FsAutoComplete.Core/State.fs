@@ -80,7 +80,7 @@ type State =
 
   member x.TryGetFileId file =
     let file = Utils.normalizePath file
-    x.FilesId |> Seq.tryFind (fun kv -> kv.Key = file)
+    x.FilesId |> Seq.tryFind (fun kv -> kv.Key = file) |> Option.map (fun kv -> kv.Value)
 
   member x.SetFileId file id =
     let file = Utils.normalizePath file
