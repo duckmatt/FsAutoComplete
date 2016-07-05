@@ -182,6 +182,9 @@ type FSharpCompilerServiceChecker() =
   member __.ParseAndCheckFileInProject(fileName, version, source, options) =
     checker.ParseAndCheckFileInProject(fileName, version, source, options)
 
+  member __.ParseAndCheckFileInProject(fileName, version, source, options, isResultObsolete) =
+    checker.ParseAndCheckFileInProject(fileName, version, source, options, IsResultObsolete isResultObsolete)
+
   member __.TryGetRecentTypeCheckResultsForFile(file, options, ?source) =
     checker.TryGetRecentTypeCheckResultsForFile(file, options, ?source=source)
     |> Option.map (fun (pr, cr, _) -> ParseAndCheckResults (pr, cr))

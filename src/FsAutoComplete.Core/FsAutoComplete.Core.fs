@@ -28,9 +28,11 @@ type Commands (serialize : Serializer) =
 
     member __.Parse file lines = async {
         let colorizations = state.ColorizationOutput
+        let id = Guid.NewGuid ()
+        state.SetFileId file id
         let parse' fileName text options =
             async {
-                let! _parseResults, checkResults = checker.ParseAndCheckFileInProject(fileName, 0, text, options)
+                let! _parseResults, checkResults = checker.ParseAndCheckFileInProject(fileName, 0, text, options, fun () -> state.TryGetFileId fileName |> Option.exists ((=) id) )
                 return match checkResults with
                         | FSharpCheckFileAnswer.Aborted -> [Response.info serialize "Parse aborted"]
                         | FSharpCheckFileAnswer.Succeeded results ->

@@ -3,20 +3,23 @@
 open System
 open Microsoft.FSharp.Compiler
 open Microsoft.FSharp.Compiler.SourceCodeServices
+open System.Collections.Generic
 
 
 
 type State =
   {
     Files : Map<string,VolatileFile>
+    FilesId : Dictionary<string,Guid>
     FileCheckOptions : Map<string,FSharpProjectOptions>
     ProjectLoadTimes : Map<string,DateTime>
     HelpText : Map<String, FSharpToolTipText>
-    ColorizationOutput: bool 
+    ColorizationOutput: bool
   }
 
   static member Initial =
     { Files = Map.empty
+      FilesId = Dictionary()
       FileCheckOptions = Map.empty
       ProjectLoadTimes = Map.empty
       HelpText = Map.empty
@@ -74,3 +77,11 @@ type State =
                pos.Col <= lines.[pos.Line - 1].Length + 1 && pos.Col >= 1
       if not ok then Failure "Position is out of range"
       else Success (opts, lines, lines.[pos.Line - 1])
+
+  member x.TryGetFileId file =
+    let file = Utils.normalizePath file
+    x.FilesId |> Seq.tryFind (fun kv -> kv.Key = file)
+
+  member x.SetFileId file id =
+    let file = Utils.normalizePath file
+    x.FilesId.[file] <- id
