@@ -6,7 +6,7 @@ NUGET
     FSharp.Compiler.Service (3.0)
     FSharp.Compiler.Service.ProjectCracker (3.0)
     FSharp.Core (4.0.0.1) - redirects: on
-    FSharpLint.Core (0.4.2)
+    FSharpLint.Core (0.4.3)
       FParsec
       FSharp.Compiler.Service
       FSharp.Compiler.Service.ProjectCracker
